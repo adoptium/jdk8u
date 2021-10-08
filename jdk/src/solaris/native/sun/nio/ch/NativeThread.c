@@ -34,7 +34,7 @@
 
 #ifdef __linux__
   #include <pthread.h>
-  #include <sys/signal.h>
+  #include <signal.h>
   /* Also defined in net/linux_close.c */
   #define INTERRUPT_SIGNAL (SIGRTMAX - 2)
 #elif __solaris__
