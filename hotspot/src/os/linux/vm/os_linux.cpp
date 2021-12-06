@@ -803,7 +803,7 @@ static void *java_start(Thread *thread) {
   // processors with hyperthreading technology.
   static int counter = 0;
   int pid = os::current_process_id();
-  alloca(((pid ^ counter++) & 7) * 128);
+  void *tmp = alloca(((pid ^ counter++) & 7) * 128);
 
   ThreadLocalStorage::set_thread(thread);
 
