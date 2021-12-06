@@ -1066,6 +1066,7 @@ with_milestone
 with_update_version
 with_user_release_suffix
 with_build_number
+with_company_name
 with_vendor_name
 with_vendor_url
 with_vendor_bug_url
@@ -1916,6 +1917,7 @@ Optional Packages:
                           Add a custom string to the version string if build
                           number isn't set.[username_builddateb00]
   --with-build-number     Set build number value for build [b00]
+  --with-company-name     Set company name
   --with-vendor-name      Set vendor name. Among others, used to set the
                           'java.vendor' and 'java.vm.vendor' system
                           properties. [not specified]
@@ -19935,18 +19937,20 @@ fi
 
   # Now set the JDK version, milestone, build number etc.
 
+  # The company name, if any
 
+# Check whether --with-company-name was given.
+if test "${with_company_name+set}" = set; then :
+  withval=$with_company_name;
+fi
 
-
-
-
-
-
-
-
-
-
-
+  if test "x$with_company_name" = xyes; then
+    as_fn_error $? "--with-company-name must have a value" "$LINENO" 5
+  elif  ! [[ $with_company_name =~ ^[[:print:]]*$ ]] ; then
+    as_fn_error $? "--with-company-name contains non-printing characters: $with_company_name" "$LINENO" 5
+  elif test "x$with_company_name" != x; then
+    COMPANY_NAME="$with_company_name"
+  fi
 
   # The vendor name, if any
 
