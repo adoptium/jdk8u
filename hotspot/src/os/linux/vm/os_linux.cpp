@@ -580,7 +580,7 @@ void os::Linux::hotspot_sigmask(Thread* thread) {
 // detecting pthread library
 
 void os::Linux::libpthread_init() {
-#if 1
+#if !(defined(__GLIBC__) || defined(__UCLIBC__))
   // Hard code Alpine Linux supported musl compatible settings
   os::Linux::set_glibc_version("glibc 2.9");
   os::Linux::set_libpthread_version("NPTL");
