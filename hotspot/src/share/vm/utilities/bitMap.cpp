@@ -42,6 +42,7 @@
 # include "os_bsd.inline.hpp"
 #endif
 
+template class ArrayAllocator<BitMap::bm_word_t, mtInternal>;
 
 BitMap::BitMap(bm_word_t* map, idx_t size_in_bits) :
   _map(map), _size(size_in_bits), _map_allocator(false)
