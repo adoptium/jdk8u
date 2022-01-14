@@ -95,6 +95,7 @@
 # include <string.h>
 # include <syscall.h>
 # include <sys/sysinfo.h>
+# include <gnu/libc-version.h>
 # include <sys/ipc.h>
 # include <sys/shm.h>
 # include <link.h>
@@ -580,13 +581,6 @@ void os::Linux::hotspot_sigmask(Thread* thread) {
 // detecting pthread library
 
 void os::Linux::libpthread_init() {
-#if !(defined(__GLIBC__) || defined(__UCLIBC__))
-  // Hard code Alpine Linux supported musl compatible settings
-  os::Linux::set_glibc_version("glibc 2.9");
-  os::Linux::set_libpthread_version("NPTL");
-  os::Linux::set_is_NPTL();
-  os::Linux::set_is_floating_stack();
-#else
   // Save glibc and pthread version strings. Note that _CS_GNU_LIBC_VERSION
   // and _CS_GNU_LIBPTHREAD_VERSION are supported in glibc >= 2.3.2. Use a
   // generic name for earlier versions.
@@ -645,7 +639,6 @@ void os::Linux::libpthread_init() {
   if (os::Linux::is_NPTL() || os::Linux::supports_variable_stack_size()) {
      os::Linux::set_is_floating_stack();
   }
-#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -803,7 +796,7 @@ static void *java_start(Thread *thread) {
   // processors with hyperthreading technology.
   static int counter = 0;
   int pid = os::current_process_id();
-  void *tmp = alloca(((pid ^ counter++) & 7) * 128);
+  alloca(((pid ^ counter++) & 7) * 128);
 
   ThreadLocalStorage::set_thread(thread);
 
@@ -2981,11 +2974,6 @@ extern "C" JNIEXPORT void numa_warn(int number, char *where, ...) { }
 extern "C" JNIEXPORT void numa_error(char *where) { }
 extern "C" JNIEXPORT int fork1() { return fork(); }
 
-static void *dlvsym(void *handle, const char *name, const char *ver)
-{
-  return dlsym(handle, name);
-}
-
 // Handle request to load libnuma symbol version 1.1 (API v1). If it fails
 // load symbol from base version instead.
 void* os::Linux::libnuma_dlsym(void* handle, const char *name) {
@@ -5008,8 +4996,7 @@ void os::Linux::check_signal_handler(int sig) {
   }
 
   if (thisHandler != jvmHandler) {
-    if(exception_name(sig, buf, O_BUFLEN))
-      tty->print("Warning: %s handler ", exception_name(sig, buf, O_BUFLEN));
+    tty->print("Warning: %s handler ", exception_name(sig, buf, O_BUFLEN));
     tty->print("expected:%s", get_signal_handler_name(jvmHandler, buf, O_BUFLEN));
     tty->print_cr("  found:%s", get_signal_handler_name(thisHandler, buf, O_BUFLEN));
     // No need to check this sig any longer
