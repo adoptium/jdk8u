@@ -27,7 +27,7 @@
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
 #include <X11/Xatom.h>
-#if defined(__linux__) && defined(__GLIBC__) && ! defined(__UCLIBC__)
+#ifdef __linux__
 #include <execinfo.h>
 #endif
 
@@ -796,7 +796,7 @@ JNIEXPORT jstring JNICALL Java_sun_awt_X11_XToolkit_getEnv
     return ret;
 }
 
-#if defined(__linux__) && defined(__GLIBC__) && ! defined(__UCLIBC__)
+#ifdef __linux__
 void print_stack(void)
 {
   void *array[10];
