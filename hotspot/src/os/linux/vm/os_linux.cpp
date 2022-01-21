@@ -102,6 +102,10 @@
 # include <inttypes.h>
 # include <sys/ioctl.h>
 
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <gnu/libc-version.h>
+#endif
+
 PRAGMA_FORMAT_MUTE_WARNINGS_FOR_GCC
 
 #ifndef _GNU_SOURCE
@@ -2981,10 +2985,13 @@ extern "C" JNIEXPORT void numa_warn(int number, char *where, ...) { }
 extern "C" JNIEXPORT void numa_error(char *where) { }
 extern "C" JNIEXPORT int fork1() { return fork(); }
 
-static void *dlvsym(void *handle, const char *name, const char *ver)
-{
-  return dlsym(handle, name);
-}
+// Musl only
+#if !(defined(__GLIBC__) || defined(__UCLIBC__))
+  static void *dlvsym(void *handle, const char *name, const char *ver)
+  {
+    return dlsym(handle, name);
+  }
+#endif
 
 // Handle request to load libnuma symbol version 1.1 (API v1). If it fails
 // load symbol from base version instead.
