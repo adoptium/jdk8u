@@ -103,7 +103,7 @@ check_hg_updates() {
 }
 
 # Check for local changes
-run_autogen_or_fail
+check_hg_updates
 
 if test -e $conf_custom_script_dir/generated-configure.sh; then
   # Test if open configure is newer than custom configure, if so, custom needs to
