@@ -73,6 +73,10 @@
 # include <poll.h>
 # include <ucontext.h>
 
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <fpu_control.h>
+#endif
+
 #ifdef AMD64
 #define REG_SP REG_RSP
 #define REG_PC REG_RIP
@@ -543,8 +547,11 @@ JVM_handle_linux_signal(int sig,
   return true; // Mute compiler
 }
 
-#define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
-#define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
+// Musl only
+#if !(defined(__GLIBC__) || defined(__UCLIBC__))
+  #define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
+  #define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
+#endif
 
 void os::Linux::init_thread_fpu_state(void) {
 #ifndef AMD64

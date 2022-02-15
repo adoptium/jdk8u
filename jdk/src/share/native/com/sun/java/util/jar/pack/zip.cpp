@@ -46,7 +46,9 @@
 
 #include "zip.h"
 
-#define uchar unsigned char
+#if !(defined(__GLIBC__) || defined(__UCLIBC__)) // Musl
+  #define uchar unsigned char
+#endif
 
 #ifdef NO_ZLIB
 

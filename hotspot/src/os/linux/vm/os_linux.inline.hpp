@@ -33,8 +33,13 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
-#include <poll.h>
 #include <netdb.h>
+
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/poll.h>
+#else // Musl
+  #include <poll.h>
+#endif
 
 inline void* os::thread_local_storage_at(int index) {
   return pthread_getspecific((pthread_key_t)index);

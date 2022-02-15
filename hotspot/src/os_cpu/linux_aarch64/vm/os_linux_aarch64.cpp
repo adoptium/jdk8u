@@ -72,7 +72,12 @@
 # include <pwd.h>
 # include <poll.h>
 # include <ucontext.h>
-# include <linux/types.h>  /* provides __u64 */
+
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <fpu_control.h>
+#else // Musl
+  #include <linux/types.h>  /* provides __u64 */
+#endif
 
 #define REG_FP 29
 

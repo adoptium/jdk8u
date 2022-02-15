@@ -33,7 +33,11 @@
 #include <unistd.h>
 
 #ifndef USE_SELECT
-#include <poll.h>
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/poll.h>
+#else // Musl
+  #include <poll.h>
+#endif
 #endif
 
 

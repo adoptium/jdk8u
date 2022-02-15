@@ -65,7 +65,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <signal.h>
+
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/signal.h>
+#else // Musl
+  #include <signal.h>
+#endif
 
 /* O Flags */
 

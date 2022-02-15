@@ -32,8 +32,13 @@
 #include <dlfcn.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <poll.h>
 #include <sys/inotify.h>
+
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/poll.h>
+#else // Musl
+  #include <poll.h>
+#endif
 
 #include "sun_nio_fs_LinuxWatchService.h"
 

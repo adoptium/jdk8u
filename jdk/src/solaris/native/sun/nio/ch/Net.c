@@ -23,7 +23,12 @@
  * questions.
  */
 
-#include <poll.h>
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/poll.h>
+#else // Musl
+  #include <poll.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <string.h>

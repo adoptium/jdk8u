@@ -36,7 +36,12 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
-#include <poll.h>
+
+#if defined(__GLIBC__) || defined(__UCLIBC__)
+  #include <sys/poll.h>
+#else // Musl
+  #include <poll.h>
+#endif
 
 /*
  * Stack allocated by thread when doing blocking operation
