@@ -152,7 +152,7 @@ static void __attribute((constructor)) init() {
     /*
      * Setup the signal handler
      */
-#ifndef __AIX
+#ifndef _AIX
     sigWakeup = SIGRTMAX - 2;
 #endif
     sa.sa_handler = sig_wakeup;
