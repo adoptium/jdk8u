@@ -583,6 +583,7 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
           -D_STATIC_CPPLIB -D_DISABLE_DEPRECATE_STATIC_CPPLIB"
     fi
   fi
+  FDLIBM_CFLAGS="$FDLIBM_CFLAGS $with_extra_cflags"
   AC_SUBST(FDLIBM_CFLAGS)
 
   ###############################################################################
@@ -671,6 +672,11 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
     CCXXFLAGS_JDK="$CCXXFLAGS_JDK -D_ALLBSD_SOURCE"
   fi
 
+  # Define MUSL_LIBC
+  if test "x$OPENJDK_TARGET_LIBC" = xmusl; then
+    CCXXFLAGS_JDK="$CCXXFLAGS_JDK -DMUSL_LIBC"
+  fi
+  
   # Additional macosx handling
   if test "x$OPENJDK_TARGET_OS" = xmacosx; then
     if test "x$TOOLCHAIN_TYPE" = xgcc; then
