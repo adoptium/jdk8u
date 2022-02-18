@@ -30,9 +30,9 @@
 #include <unistd.h>
 #include <limits.h>
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
   #include <dirent.h>
-#else // Musl
+#else
   #include <poll.h>
 #endif
 
@@ -62,8 +62,7 @@ closeSafely(int fd)
     return (fd == -1) ? 0 : close(fd);
 }
 
-/* This is implemented differently for musl libc */
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
 
 int
 isAsciiDigit(char c)

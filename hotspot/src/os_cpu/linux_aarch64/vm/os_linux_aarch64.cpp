@@ -73,9 +73,9 @@
 # include <poll.h>
 # include <ucontext.h>
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifdef MUSL_LIBC
   #include <fpu_control.h>
-#else // Musl
+#else
   #include <linux/types.h>  /* provides __u64 */
 #endif
 

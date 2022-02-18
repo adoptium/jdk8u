@@ -34,9 +34,9 @@
 
 #ifdef __linux__
   #include <pthread.h>
-  #if defined(__GLIBC__) || defined(__UCLIBC__)
+  #ifndef MUSL_LIBC
     #include <sys/signal.h>
-  #else // Musl
+  #else
     #include <signal.h>
   #endif
   /* Also defined in net/linux_close.c */

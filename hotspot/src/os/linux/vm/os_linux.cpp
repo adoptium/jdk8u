@@ -102,7 +102,7 @@
 # include <inttypes.h>
 # include <sys/ioctl.h>
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
   #include <gnu/libc-version.h>
 #endif
 
@@ -584,7 +584,7 @@ void os::Linux::hotspot_sigmask(Thread* thread) {
 // detecting pthread library
 
 void os::Linux::libpthread_init() {
-#if !(defined(__GLIBC__) || defined(__UCLIBC__))
+#ifdef MUSL_LIBC
   // Hard code Alpine Linux supported musl compatible settings
   os::Linux::set_glibc_version("glibc 2.9");
   os::Linux::set_libpthread_version("NPTL");
@@ -2985,8 +2985,8 @@ extern "C" JNIEXPORT void numa_warn(int number, char *where, ...) { }
 extern "C" JNIEXPORT void numa_error(char *where) { }
 extern "C" JNIEXPORT int fork1() { return fork(); }
 
-// Musl only
-#if !(defined(__GLIBC__) || defined(__UCLIBC__))
+#ifdef MUSL_LIBC
+// dlvsym is not a part of POSIX and musl libc doesn't implement it.
   static void *dlvsym(void *handle, const char *name, const char *ver)
   {
     return dlsym(handle, name);

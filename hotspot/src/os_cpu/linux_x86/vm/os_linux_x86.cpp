@@ -73,7 +73,7 @@
 # include <poll.h>
 # include <ucontext.h>
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
   #include <fpu_control.h>
 #endif
 
@@ -547,8 +547,7 @@ JVM_handle_linux_signal(int sig,
   return true; // Mute compiler
 }
 
-// Musl only
-#if !(defined(__GLIBC__) || defined(__UCLIBC__))
+#ifdef MUSL_LIBC
   #define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
   #define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
 #endif

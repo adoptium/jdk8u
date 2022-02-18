@@ -27,7 +27,7 @@
 #include "runtime/frame.inline.hpp"
 #include "runtime/thread.hpp"
 
-#if ! (defined(__GLIBC__) || defined(__UCLIBC__))
+#ifdef MUSL_LIBC
 #include <asm/ptrace.h>
 #endif
 
@@ -46,10 +46,10 @@ bool JavaThread::pd_get_top_frame_for_profiling(frame* fr_addr, void* ucontext, 
   // if we were running Java code when SIGPROF came in.
   if (isInJava) {
     ucontext_t* uc = (ucontext_t*) ucontext;
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
     frame ret_frame((intptr_t*)uc->uc_mcontext.regs->gpr[1/*REG_SP*/],
                      (address)uc->uc_mcontext.regs->nip);
-#else // Musl
+#else
     frame ret_frame((intptr_t*)uc->uc_mcontext.gp_regs[1/*REG_SP*/],
                      (address)uc->uc_mcontext.gp_regs[PT_NIP]);
 #endif
@@ -65,9 +65,9 @@ bool JavaThread::pd_get_top_frame_for_profiling(frame* fr_addr, void* ucontext, 
       if (m == NULL || !m->is_valid_method()) return false;
       if (!Metaspace::contains((const void*)m)) return false;
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
       uint64_t reg_bcp = uc->uc_mcontext.regs->gpr[14/*R14_bcp*/];
-#else // Musl
+#else
        uint64_t reg_bcp = uc->uc_mcontext.gp_regs[14/*R14_bcp*/];
 #endif
       uint64_t istate_bcp = istate->bcp;

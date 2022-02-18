@@ -552,7 +552,7 @@ startChild(JNIEnv *env, jobject process, ChildStuff *c, const char *helperpath) 
       case MODE_VFORK:
 // use regular fork when running on musl
 // this should fix deadlocks on aarch64
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
         return vforkChild(c);
 #endif	      
       case MODE_FORK:
@@ -655,7 +655,7 @@ Java_java_lang_UNIXProcess_forkAndExec(JNIEnv *env,
           case MODE_VFORK:
 // use regular fork when running on musl
 // this should fix deadlocks on aarch64
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
             throwIOException(env, errno, "vfork failed");
             break;
 #endif

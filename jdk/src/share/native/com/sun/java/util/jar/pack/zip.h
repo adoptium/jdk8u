@@ -23,11 +23,11 @@
  * questions.
  */
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
   #define ushort unsigned short
   #define uint   unsigned int
   #define uchar  unsigned char
-#else // Musl
+#else
   #include <sys/types.h>
 #endif
 

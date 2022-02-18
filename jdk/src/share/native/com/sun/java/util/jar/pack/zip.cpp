@@ -46,7 +46,7 @@
 
 #include "zip.h"
 
-#if !(defined(__GLIBC__) || defined(__UCLIBC__)) // Musl
+#ifdef MUSL_LIBC
   #define uchar unsigned char
 #endif
 

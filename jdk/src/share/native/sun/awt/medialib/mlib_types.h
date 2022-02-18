@@ -27,7 +27,7 @@
 #ifndef MLIB_TYPES_H
 #define MLIB_TYPES_H
 
-#if !(defined(__GLIBC__) || defined(__UCLIBC__)) // Musl
+#ifdef MUSL_LIBC
   #include <stddef.h>			/* for NULL */
 #endif
 

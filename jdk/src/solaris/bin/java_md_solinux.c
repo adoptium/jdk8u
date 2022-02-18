@@ -292,7 +292,7 @@ RequiresSetenv(int wanted, const char *jvmpath) {
     char *dmllp = NULL;
     char *p; /* a utility pointer */
 
-#if !(defined(__GLIBC__) || defined(__UCLIBC__)) // Musl
+#ifdef MUSL_LIBC
     return JNI_TRUE;
 #endif
 

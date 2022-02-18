@@ -66,9 +66,9 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#if defined(__GLIBC__) || defined(__UCLIBC__)
+#ifndef MUSL_LIBC
   #include <sys/signal.h>
-#else // Musl
+#else
   #include <signal.h>
 #endif
 

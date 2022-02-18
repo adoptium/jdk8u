@@ -37,9 +37,9 @@
   #include <thread.h>
 #else
   #include <pthread.h>
-  #if defined(__GLIBC__) || defined(__UCLIBC__)
+  #ifndef MUSL_LIBC
     #include <sys/poll.h>
-  #else // Musl
+  #else
     #include <poll.h>
   #endif
 #endif
