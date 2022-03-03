@@ -2988,7 +2988,7 @@ extern "C" JNIEXPORT void numa_error(char *where) { }
 extern "C" JNIEXPORT int fork1() { return fork(); }
 
 #ifdef MUSL_LIBC
-// dlvsym is not a part of POSIX and musl libc doesn't implement it.
+  // dlvsym is not a part of POSIX and musl libc doesn't implement it.
   static void *dlvsym(void *handle, const char *name, const char *ver)
   {
     return dlsym(handle, name);
