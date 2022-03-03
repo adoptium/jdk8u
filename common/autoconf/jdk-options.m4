@@ -150,8 +150,12 @@ AC_DEFUN_ONCE([JDKOPT_SETUP_JVM_VARIANTS],
   AC_SUBST(JVM_VARIANT_ZERO)
   AC_SUBST(JVM_VARIANT_ZEROSHARK)
   AC_SUBST(JVM_VARIANT_CORE)
+  
+  INCLUDE_SA=true
 
-  AC_CHECK_HEADER(thread_db.h,INCLUDE_SA=true,INCLUDE_SA=false)
+  if test "x$OPENJDK_TARGET_LIBC" = xmusl; then
+    INCLUDE_SA=false
+  fi
   if test "x$JVM_VARIANT_ZERO" = xtrue ; then
     INCLUDE_SA=false
   fi
