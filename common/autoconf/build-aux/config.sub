@@ -29,8 +29,8 @@
 
 DIR=`dirname $0`
 
-if [ "$1"x = "x86_64-unknown-linux-musl"x ]; then
-    echo $1
+if echo $* | grep linux-musl >/dev/null ; then
+    echo $*
     exit
 fi
 
