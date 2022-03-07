@@ -23,9 +23,13 @@
  * questions.
  */
 
+#ifndef MUSL_LIBC
 #define ushort unsigned short
 #define uint   unsigned int
 #define uchar  unsigned char
+#else
+#include <sys/types.h>
+#endif
 
 struct unpacker;
 

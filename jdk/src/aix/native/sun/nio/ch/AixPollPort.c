@@ -34,12 +34,17 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/poll.h>
 #include <sys/pollset.h>
 #include <fcntl.h>
 #include <stddef.h>
 #include <dlfcn.h>
 #include <errno.h>
+
+#ifndef MUSL_LIBC
+#include <sys/poll.h>
+#else
+#include <poll.h>
+#endif
 
 /* Initially copied from src/solaris/native/sun/nio/ch/nio_util.h */
 #define RESTARTABLE(_cmd, _result) do { \
