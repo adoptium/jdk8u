@@ -34,10 +34,14 @@
 #include <string.h>
 #include <sys/time.h>
 #ifdef __solaris__
-#include <thread.h>
+  #include <thread.h>
 #else
-#include <pthread.h>
-#include <sys/poll.h>
+  #include <pthread.h>
+  #ifndef MUSL_LIBC
+    #include <sys/poll.h>
+  #else
+    #include <poll.h>
+  #endif
 #endif
 
 #include "socket_md.h"
