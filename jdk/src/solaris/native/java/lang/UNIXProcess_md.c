@@ -550,7 +550,11 @@ static pid_t
 startChild(JNIEnv *env, jobject process, ChildStuff *c, const char *helperpath) {
     switch (c->mode) {
       case MODE_VFORK:
+// use regular fork when running on musl
+// this should fix deadlocks on aarch64
+#ifndef MUSL_LIBC
         return vforkChild(c);
+#endif
       case MODE_FORK:
         return forkChild(c);
 #if defined(__solaris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
@@ -649,8 +653,12 @@ Java_java_lang_UNIXProcess_forkAndExec(JNIEnv *env,
     if (resultPid < 0) {
         switch (c->mode) {
           case MODE_VFORK:
+// use regular fork when running on musl
+// this should fix deadlocks on aarch64
+#ifndef MUSL_LIBC
             throwIOException(env, errno, "vfork failed");
             break;
+#endif
           case MODE_FORK:
             throwIOException(env, errno, "fork failed");
             break;

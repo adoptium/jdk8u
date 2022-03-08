@@ -809,7 +809,7 @@ static void *java_start(Thread *thread) {
   // processors with hyperthreading technology.
   static int counter = 0;
   int pid = os::current_process_id();
-  alloca(((pid ^ counter++) & 7) * 128);
+  void *tmp = alloca(((pid ^ counter++) & 7) * 128);
 
   ThreadLocalStorage::set_thread(thread);
 
@@ -2987,6 +2987,14 @@ extern "C" JNIEXPORT void numa_warn(int number, char *where, ...) { }
 extern "C" JNIEXPORT void numa_error(char *where) { }
 extern "C" JNIEXPORT int fork1() { return fork(); }
 
+#ifdef MUSL_LIBC
+  // dlvsym is not a part of POSIX and musl libc doesn't implement it.
+  static void *dlvsym(void *handle, const char *name, const char *ver)
+  {
+    return dlsym(handle, name);
+  }
+#endif
+
 // Handle request to load libnuma symbol version 1.1 (API v1). If it fails
 // load symbol from base version instead.
 void* os::Linux::libnuma_dlsym(void* handle, const char *name) {
@@ -5009,7 +5017,8 @@ void os::Linux::check_signal_handler(int sig) {
   }
 
   if (thisHandler != jvmHandler) {
-    tty->print("Warning: %s handler ", exception_name(sig, buf, O_BUFLEN));
+    if(exception_name(sig, buf, O_BUFLEN))
+      tty->print("Warning: %s handler ", exception_name(sig, buf, O_BUFLEN));
     tty->print("expected:%s", get_signal_handler_name(jvmHandler, buf, O_BUFLEN));
     tty->print_cr("  found:%s", get_signal_handler_name(thisHandler, buf, O_BUFLEN));
     // No need to check this sig any longer
