@@ -72,7 +72,10 @@
 # include <pwd.h>
 # include <poll.h>
 # include <ucontext.h>
-# include <fpu_control.h>
+
+#ifndef MUSL_LIBC
+#include <fpu_control.h>
+#endif
 
 #ifdef AMD64
 #define REG_SP REG_RSP
@@ -543,6 +546,11 @@ JVM_handle_linux_signal(int sig,
   ShouldNotReachHere();
   return true; // Mute compiler
 }
+
+#ifdef MUSL_LIBC
+#define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
+#define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
+#endif
 
 void os::Linux::init_thread_fpu_state(void) {
 #ifndef AMD64
