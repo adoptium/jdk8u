@@ -62,7 +62,7 @@ SA_PROPERTIES = $(SA_CLASSDIR)/sa.properties
 # check for thread_db.h too (musl does not have it).
 
 all: 
-if [ -d $(AGENT_DIR) -a -f /usr/include/thread_db.h \
+	if [ -d $(AGENT_DIR) -a -f /usr/include/thread_db.h \
              -a "$(SRCARCH)" != "ia64" \
              -a "$(SRCARCH)" != "zero" ] ; then \
 	   $(MAKE) -f sa.make $(GENERATED)/sa-jdi.jar; \
