@@ -1243,7 +1243,11 @@ bool MacroAssembler::is_load_from_polling_page(int instruction, void* ucontext,
   // the safepoing polling page.
   ucontext_t* uc = (ucontext_t*) ucontext;
   // Set polling address.
+#ifndef MUSL_LIBC
   address addr = (address)uc->uc_mcontext.regs->gpr[ra] + (ssize_t)ds;
+#else
+  address addr = (address)uc->uc_mcontext.gp_regs[ra] + (ssize_t)ds;
+#endif
   if (polling_address_ptr != NULL) {
     *polling_address_ptr = addr;
   }
@@ -1264,15 +1268,24 @@ bool MacroAssembler::is_memory_serialization(int instruction, JavaThread* thread
     int rb = inv_rb_field(instruction);
 
     // look up content of ra and rb in ucontext
+#ifndef MUSL_LIBC
     address ra_val=(address)uc->uc_mcontext.regs->gpr[ra];
     long rb_val=(long)uc->uc_mcontext.regs->gpr[rb];
+#else
+    address ra_val=(address)uc->uc_mcontext.gp_regs[ra];
+    long rb_val=(long)uc->uc_mcontext.gp_regs[rb];
+#endif
     return os::is_memory_serialize_page(thread, ra_val+rb_val);
   } else if (is_stw(instruction) || is_stwu(instruction)) {
     int ra = inv_ra_field(instruction);
     int d1 = inv_d1_field(instruction);
 
     // look up content of ra in ucontext
+#ifndef MUSL_LIBC
     address ra_val=(address)uc->uc_mcontext.regs->gpr[ra];
+#else
+    address ra_val=(address)uc->uc_mcontext.gp_regs[ra];
+#endif
     return os::is_memory_serialize_page(thread, ra_val+d1);
   } else {
     return false;
@@ -1335,11 +1348,20 @@ address MacroAssembler::get_stack_bang_address(int instruction, void *ucontext) 
       || (is_stdu(instruction) && rs == 1)) {
     int ds = inv_ds_field(instruction);
     // return banged address
+#ifndef MUSL_LIBC
     return ds+(address)uc->uc_mcontext.regs->gpr[ra];
+#else
+    return ds+(address)uc->uc_mcontext.gp_regs[ra];
+#endif
   } else if (is_stdux(instruction) && rs == 1) {
     int rb = inv_rb_field(instruction);
+#ifndef MUSL_LIBC
     address sp = (address)uc->uc_mcontext.regs->gpr[1];
     long rb_val = (long)uc->uc_mcontext.regs->gpr[rb];
+#else
+    address sp = (address)uc->uc_mcontext.gp_regs[1];
+    long rb_val = (long)uc->uc_mcontext.gp_regs[rb];
+#endif
     return ra != 1 || rb_val >= 0 ? NULL         // not a stack bang
                                   : sp + rb_val; // banged address
   }
