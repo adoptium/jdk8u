@@ -72,7 +72,12 @@
 # include <pwd.h>
 # include <poll.h>
 # include <ucontext.h>
-# include <fpu_control.h>
+
+#ifdef MUSL_LIBC
+#include <fpu_control.h>
+#else
+#include <linux/types.h>  /* provides __u64 */
+#endif
 
 #define REG_FP 29
 

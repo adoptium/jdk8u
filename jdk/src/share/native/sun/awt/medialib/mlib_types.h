@@ -27,6 +27,10 @@
 #ifndef MLIB_TYPES_H
 #define MLIB_TYPES_H
 
+#ifdef MUSL_LIBC
+#include <stddef.h>                     /* for NULL */
+#endif
+
 #include <limits.h>
 #if defined(_MSC_VER)
 #include <float.h>                      /* for FLT_MAX and DBL_MAX */

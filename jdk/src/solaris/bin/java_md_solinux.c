@@ -292,6 +292,10 @@ RequiresSetenv(int wanted, const char *jvmpath) {
     char *dmllp = NULL;
     char *p; /* a utility pointer */
 
+#ifdef MUSL_LIBC
+    return JNI_TRUE;
+#endif
+
 #ifdef AIX
     /* We always have to set the LIBPATH on AIX because ld doesn't support $ORIGIN. */
     return JNI_TRUE;

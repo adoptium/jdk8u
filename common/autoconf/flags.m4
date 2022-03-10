@@ -474,13 +474,19 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
   AC_ARG_WITH(extra-asflags, [AS_HELP_STRING([--with-extra-asflags],
       [extra flags to be passed to the assembler])])
 
-  CFLAGS_JDK="${CFLAGS_JDK} $with_extra_cflags"
-  CXXFLAGS_JDK="${CXXFLAGS_JDK} $with_extra_cxxflags"
+  # Define MUSL_LIBC
+  DEFINE_LIBC=""
+  if test "x$OPENJDK_TARGET_LIBC" = xmusl; then
+    DEFINE_LIBC="-DMUSL_LIBC"
+  fi
+
+  CFLAGS_JDK="${CFLAGS_JDK} $with_extra_cflags ${DEFINE_LIBC}"
+  CXXFLAGS_JDK="${CXXFLAGS_JDK} $with_extra_cxxflags ${DEFINE_LIBC}"
   LDFLAGS_JDK="${LDFLAGS_JDK} $with_extra_ldflags"
 
   # Hotspot needs these set in their legacy form
-  LEGACY_EXTRA_CFLAGS="$LEGACY_EXTRA_CFLAGS $with_extra_cflags"
-  LEGACY_EXTRA_CXXFLAGS="$LEGACY_EXTRA_CXXFLAGS $with_extra_cxxflags"
+  LEGACY_EXTRA_CFLAGS="$LEGACY_EXTRA_CFLAGS $with_extra_cflags $DEFINE_LIBC"
+  LEGACY_EXTRA_CXXFLAGS="$LEGACY_EXTRA_CXXFLAGS $with_extra_cxxflags $DEFINE_LIBC"
   LEGACY_EXTRA_LDFLAGS="$LEGACY_EXTRA_LDFLAGS $with_extra_ldflags"
   LEGACY_EXTRA_ASFLAGS="$with_extra_asflags"
 

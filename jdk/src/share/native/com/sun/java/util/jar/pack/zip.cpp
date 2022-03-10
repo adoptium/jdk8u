@@ -46,6 +46,10 @@
 
 #include "zip.h"
 
+#ifdef MUSL_LIBC
+#define uchar unsigned char
+#endif
+
 #ifdef NO_ZLIB
 
 inline bool jar::deflate_bytes(bytes& head, bytes& tail) {

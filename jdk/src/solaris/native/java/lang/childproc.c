@@ -23,13 +23,18 @@
  * questions.
  */
 
-#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+
+#ifndef MUSL_LIBC
+#include <dirent.h>
+#else
+#include <poll.h>
+#endif
 
 #include "childproc.h"
 
@@ -56,6 +61,8 @@ closeSafely(int fd)
 {
     return (fd == -1) ? 0 : close(fd);
 }
+
+#ifndef MUSL_LIBC
 
 int
 isAsciiDigit(char c)
@@ -114,6 +121,54 @@ closeDescriptors(void)
 
     return 1;
 }
+
+#else // Musl
+
+int
+closeDescriptors(void)
+{
+    int from_fd = FAIL_FILENO + 1;
+    struct pollfd pfds[1024];
+    int i, total, nclosed = 0;
+    int max_fd = sysconf(_SC_OPEN_MAX);
+
+    if (max_fd < 0)
+        return 0;
+
+    /* init events */
+    total = max_fd - from_fd;
+    for (i = 0; i < (total < 1024 ? total : 1024); i++) {
+        pfds[i].events = 0;
+    }
+
+    while (from_fd < max_fd) {
+        int nfds, r = 0;
+
+        total = max_fd - from_fd;
+        nfds =  total < 1024 ? total : 1024;
+
+        for (i = 0; i < nfds; i++)
+            pfds[i].fd = from_fd + i;
+
+        do {
+            r = poll(pfds, nfds, 0);
+        } while (r == -1 && errno == EINTR);
+
+        if (r < 0)
+            return 0;
+
+
+        for (i = 0; i < nfds; i++)
+            if (pfds[i].revents != POLLNVAL) {
+                nclosed++;
+                close(pfds[i].fd);
+            }
+        from_fd += nfds;
+    }
+    return 1;
+}
+
+#endif
 
 int
 moveDescriptor(int fd_from, int fd_to)

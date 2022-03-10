@@ -662,7 +662,7 @@ struct localinterface {
 
 static struct localinterface *localifs = 0;
 static int localifsSize = 0;    /* size of array */
-static int nifs = 0;            /* number of entries used in array */
+static int nifs = -1; /* number of entries used in array */
 
 /* not thread safe: make sure called once from one thread */
 
@@ -673,6 +673,10 @@ static void initLocalIfs () {
     struct localinterface *lif=0;
     int index, x1, x2, x3;
     unsigned int u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,ua,ub,uc,ud,ue,uf;
+
+    if (nifs >= 0)
+	    return ;
+    nifs = 0;
 
     if ((f = fopen("/proc/net/if_inet6", "r")) == NULL) {
         return ;
@@ -702,7 +706,7 @@ static void initLocalIfs () {
             localifs = (struct localinterface *) realloc (
                         localifs, sizeof (struct localinterface)* (localifsSize+5));
             if (localifs == 0) {
-                nifs = 0;
+                nifs = -1;
                 fclose (f);
                 return;
             }
@@ -725,9 +729,7 @@ static void initLocalIfs () {
 static int getLocalScopeID (char *addr) {
     struct localinterface *lif;
     int i;
-    if (localifs == 0) {
-        initLocalIfs();
-    }
+    initLocalIfs();
     for (i=0, lif=localifs; i<nifs; i++, lif++) {
         if (memcmp (addr, lif->localaddr, 16) == 0) {
             return lif->index;
