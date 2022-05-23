@@ -73,7 +73,7 @@
 # include <poll.h>
 # include <ucontext.h>
 
-#ifdef MUSL_LIBC
+#ifndef MUSL_LIBC
 #include <fpu_control.h>
 #else
 #include <linux/types.h>  /* provides __u64 */
