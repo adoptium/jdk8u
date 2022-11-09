@@ -203,13 +203,13 @@ jobs:
       matrix:
         test:
           - jdk/tier1
-#          - langtools/tier1
+          - langtools/tier1
 #          - hotspot/tier1
         include:
           - test: jdk/tier1
             suites: jdk_tier1
-#          - test: langtools/tier1
-#            suites: langtools_tier1
+          - test: langtools/tier1
+            suites: langtools_tier1
 #          - test: hotspot/tier1
 #            suites: hotspot_tier1
 
@@ -559,13 +559,13 @@ jobs:
       matrix:
         test:
           - jdk/tier1
-#          - langtools/tier1
+          - langtools/tier1
 #          - hotspot/tier1
         include:
           - test: jdk/tier1
             suites: jdk_tier1
-#          - test: langtools/tier1
-#            suites: langtools_tier1
+          - test: langtools/tier1
+            suites: langtools_tier1
 #          - test: hotspot/tier1
 #            suites: hotspot_tier1
 
@@ -1000,13 +1000,13 @@ jobs:
       matrix:
         test:
           - jdk/tier1
-#          - langtools/tier1
+          - langtools/tier1
 #          - hotspot/tier1
         include:
           - test: jdk/tier1
             suites: jdk_tier1
-#          - test: langtools/tier1
-#            suites: langtools_tier1
+          - test: langtools/tier1
+            suites: langtools_tier1
 #          - test: hotspot/tier1
 #            suites: hotspot_tier1
 
@@ -1145,13 +1145,13 @@ jobs:
       matrix:
         test:
           - jdk/tier1
-#          - langtools/tier1
+          - langtools/tier1
 #          - hotspot/tier1
         include:
           - test: jdk/tier1
             suites: jdk_tier1
-#          - test: langtools/tier1
-#            suites: langtools_tier1
+          - test: langtools/tier1
+            suites: langtools_tier1
 #          - test: hotspot/tier1
 #            suites: hotspot_tier1
 
@@ -1388,13 +1388,13 @@ jobs:
       matrix:
         test:
           - jdk/tier1
-#          - langtools/tier1
+          - langtools/tier1
 #          - hotspot/tier1
         include:
           - test: jdk/tier1
             suites: jdk_tier1
-#          - test: langtools/tier1
-#            suites: langtools_tier1
+          - test: langtools/tier1
+            suites: langtools_tier1
 #          - test: hotspot/tier1
 #            suites: hotspot_tier1
 
