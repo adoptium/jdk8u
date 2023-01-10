@@ -34,13 +34,9 @@
 
 #ifdef __linux__
   #include <pthread.h>
-  #ifndef MUSL_LIBC
-    #include <sys/signal.h>
-  #else
-    #include <signal.h>
-  #endif
+  #include <sys/signal.h>
   /* Also defined in net/linux_close.c */
-  #define INTERRUPT_SIGNAL (SIGRTMAX - 2)
+  #define INTERRUPT_SIGNAL (__SIGRTMAX - 2)
 #elif __solaris__
   #include <thread.h>
   #include <signal.h>
