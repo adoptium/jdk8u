@@ -28,14 +28,9 @@
 #include "jvm.h"
 #include "jlong.h"
 #include "sun_nio_ch_DevPollArrayWrapper.h"
+#include <sys/poll.h>
 #include <unistd.h>
 #include <sys/time.h>
-
-#ifndef MUSL_LIBC
-#include <sys/poll.h>
-#else
-#include <poll.h>
-#endif
 
 #ifdef  __cplusplus
 extern "C" {
