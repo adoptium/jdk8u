@@ -65,12 +65,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-
-#ifndef MUSL_LIBC
 #include <sys/signal.h>
-#else
-#include <signal.h>
-#endif
 
 /* O Flags */
 
