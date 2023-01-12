@@ -23,12 +23,7 @@
  * questions.
  */
 
-#ifndef MUSL_LIBC
 #include <sys/poll.h>
-#else
-#include <poll.h>
-#endif
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <string.h>

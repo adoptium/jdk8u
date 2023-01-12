@@ -38,12 +38,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
-
-#ifndef MUSL_LIBC
 #include <sys/poll.h>
-#else
-#include <poll.h>
-#endif
 
 /*
  * Stack allocated by thread when doing blocking operation
