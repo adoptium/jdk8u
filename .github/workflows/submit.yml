@@ -205,6 +205,7 @@ jobs:
           - jdk/tier1
           - langtools/tier1
           - hotspot/tier1
+          - jdk/security_infra
         include:
           - test: jdk/tier1
             suites: jdk_tier1
@@ -212,6 +213,8 @@ jobs:
             suites: langtools_tier1
           - test: hotspot/tier1
             suites: hotspot_tier1
+          - test: jdk/security_infra
+            suites: jdk_security_infra
 
     env:
       JDK_VERSION: "${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MAJOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MINOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MICRO_VERSION }}"
@@ -561,6 +564,7 @@ jobs:
           - jdk/tier1
           - langtools/tier1
           - hotspot/tier1
+          - jdk/security_infra
         include:
           - test: jdk/tier1
             suites: jdk_tier1
@@ -568,6 +572,8 @@ jobs:
             suites: langtools_tier1
           - test: hotspot/tier1
             suites: hotspot_tier1
+          - test: jdk/security_infra
+            suites: jdk_security_infra
 
     # Reduced 32-bit build uses the same boot JDK as 64-bit build
     env:
@@ -1036,6 +1042,7 @@ jobs:
           - jdk/tier1
           - langtools/tier1
           - hotspot/tier1
+          - jdk/security_infra
         include:
           - test: jdk/tier1
             suites: jdk_tier1
@@ -1043,6 +1050,8 @@ jobs:
             suites: langtools_tier1
           - test: hotspot/tier1
             suites: hotspot_tier1
+          - test: jdk/security_infra
+            suites: jdk_security_infra
 
     env:
       JDK_VERSION: "${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MAJOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MINOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MICRO_VERSION }}"
@@ -1194,6 +1203,7 @@ jobs:
           - jdk/tier1
           - langtools/tier1
           - hotspot/tier1
+          - jdk/security_infra
         include:
           - test: jdk/tier1
             suites: jdk_tier1
@@ -1201,6 +1211,8 @@ jobs:
             suites: langtools_tier1
           - test: hotspot/tier1
             suites: hotspot_tier1
+          - test: jdk/security_infra
+            suites: jdk_security_infra
 
     env:
       JDK_VERSION: "${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MAJOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MINOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MICRO_VERSION }}"
@@ -1450,6 +1462,7 @@ jobs:
           - jdk/tier1
           - langtools/tier1
           - hotspot/tier1
+          - jdk/security_infra
         include:
           - test: jdk/tier1
             suites: jdk_tier1
@@ -1457,6 +1470,8 @@ jobs:
             suites: langtools_tier1
           - test: hotspot/tier1
             suites: hotspot_tier1
+          - test: jdk/security_infra
+            suites: jdk_security_infra
 
     env:
       JDK_VERSION: "${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MAJOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MINOR_VERSION }}.${{ fromJson(needs.prerequisites.outputs.dependencies).JDK_MICRO_VERSION }}"
