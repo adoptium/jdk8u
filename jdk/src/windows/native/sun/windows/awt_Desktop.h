@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026, IBM Corporation. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,36 +23,14 @@
  * questions.
  */
 
-#ifndef JAVA_MD_H
-#define JAVA_MD_H
+#ifndef AWT_DESKTOP_H
+#define AWT_DESKTOP_H
 
-#include <jni.h>
-#include <windows.h>
-#include <io.h>
-#include "manifest_info.h"
-#include "jli_util.h"
+// Work around build failure on 32-bit Windows.
+#if !defined(_WIN64)
+#ifndef ASSOCF_NONE
+#define ASSOCF_NONE 0x00000000
+#endif // ASSOCF_NONE
+#endif // 32 bit Windows
 
-#define PATH_SEPARATOR  ';'
-#define FILESEP         "\\"
-#define FILE_SEPARATOR  '\\'
-#define IS_FILE_SEPARATOR(c) ((c) == '\\' || (c) == '/')
-#define MAXPATHLEN      MAX_PATH
-#define MAXNAMELEN      MAX_PATH
-
-#define JLONG_FORMAT_SPECIFIER "%I64d"
-
-/*
- * Support for doing cheap, accurate interval timing.
- */
-extern jlong CounterGet(void);
-extern jlong Counter2Micros(jlong counts);
-
-
-/*
- * Function prototypes.
- */
-char *LocateJRE(manifest_info *info);
-void ExecJRE(char *jre, char **argv);
-int UnsetEnv(char *name);
-
-#endif /* JAVA_MD_H */
+#endif // AWT_DESKTOP_H
