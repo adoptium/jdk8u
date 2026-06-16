@@ -5017,7 +5017,7 @@ VS_TOOLSET_SUPPORTED_2022=true
 #CUSTOM_AUTOCONF_INCLUDE
 
 # Do not change or remove the following line, it is needed for consistency checks:
-DATE_WHEN_GENERATED=1770716053
+DATE_WHEN_GENERATED=1781625515
 
 ###############################################################################
 #
@@ -15388,6 +15388,12 @@ test -n "$target_alias" &&
       VAR_CPU_BITS=64
       VAR_CPU_ENDIAN=little
       ;;
+    riscv64)
+      VAR_CPU=riscv64
+      VAR_CPU_ARCH=riscv
+      VAR_CPU_BITS=64
+      VAR_CPU_ENDIAN=little
+      ;;
     *)
       as_fn_error $? "unsupported cpu $build_cpu" "$LINENO" 5
       ;;
@@ -15529,6 +15535,12 @@ printf "%s\n" "$OPENJDK_BUILD_OS-$OPENJDK_BUILD_CPU" >&6; }
     loongarch64)
       VAR_CPU=loongarch64
       VAR_CPU_ARCH=loongarch
+      VAR_CPU_BITS=64
+      VAR_CPU_ENDIAN=little
+      ;;
+    riscv64)
+      VAR_CPU=riscv64
+      VAR_CPU_ARCH=riscv
       VAR_CPU_BITS=64
       VAR_CPU_ENDIAN=little
       ;;
